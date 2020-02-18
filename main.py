@@ -12,7 +12,7 @@ def main():
     inputgroup.add_argument('-i', '--input-file', type=str, required=True, dest='inputfile', help='Input file path')
     inputgroup.add_argument('-if', '--input-format', type=str, required=True, dest='iformat', choices=['edgelist'], help='Input file format')
     inputgroup.add_argument('-ib', '--input-binary', dest='ibinary', action='store_true', default=False, help='Input as binary')
-    inputgroup.add_argument('-comment', type=str, default='#', help='Comment indicator in edgelist file. All lines start with designated character are ignored')
+    inputgroup.add_argument('-comment', type=str, default='\s+', help='Comment indicator in edgelist file. All lines start with designated character are ignored')
     inputgroup.add_argument('-header', action='store_true', default=False, help='Indicate if there is a header line in edgelist file (e.g. nv, ne)')
     inputgroup.add_argument('-delimeter', type=str, default=' ', help='Column delimeter for edgelist file')
     # output options
