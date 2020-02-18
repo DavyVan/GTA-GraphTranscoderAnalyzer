@@ -43,7 +43,7 @@ class InputEdgelist(InputBase):
            This function should be called at the beginning at to_IR()
         """
         max_vid = numpy.amax(self.edgelist)
-        v = numpy.zeros(max_vid+1, numpy.int64)
+        v = numpy.zeros(max_vid+1, dtype=numpy.int64)
 
         # iterate all elements in edgelist, mark appeared vertex
         for element in numpy.nditer(self.edgelist):
