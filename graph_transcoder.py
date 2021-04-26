@@ -2,6 +2,7 @@ import Input, Output
 import IR
 from scipy.sparse import csr_matrix
 
+
 def graph_transcoder(args):
     _input: Input.input_base.InputBase = None
     _IR: csr_matrix = None
@@ -25,4 +26,3 @@ def graph_transcoder(args):
         raise NotImplementedError('Unknown output format!')
 
     _output.write_to_file(_IR)
-    

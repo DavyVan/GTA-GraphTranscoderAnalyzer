@@ -1,1 +1,2 @@
-from .input_edgelist import InputEdgelist
+from .InputBase import InputBase
+from .InputEdgelist import InputEdgelist
