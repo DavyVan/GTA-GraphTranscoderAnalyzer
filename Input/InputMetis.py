@@ -108,7 +108,7 @@ class InputMetis(InputBase):
         """
 
         line = self.fd.readline()
-        while line[0] == self.comment or line == '\n':
+        while line[0] == self.comment:
             line = self.fd.readline()
         if line == '':      # EOF
             print("Premature end of input file")

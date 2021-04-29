@@ -7,6 +7,7 @@ from scipy.sparse import csr_matrix
 from typing import List, Union, Tuple
 import numpy as np
 from bisect import bisect_left
+import tqdm
 
 
 def degrees_undirected(csr: csr_matrix) -> List[int]:
@@ -45,9 +46,7 @@ def count_triangles(csr: csr_matrix) -> Tuple[int, List[int]]:
     triangle_dist = np.zeros(nnodes)
     result = 0
 
-    for i in range(nnodes):     # for each vertex
-        if i % 10000 == 0:
-            print("%d\r" % i, end='')
+    for i in tqdm.trange(nnodes):     # for each vertex
         # find qualified neighbours that:
         # 1. have degrees no less than the current vertex
         # 2. if degrees are equal, the higher ID wins
