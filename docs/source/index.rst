@@ -6,11 +6,15 @@
 GTA: Graph Transcoder & Analyzer documentation
 ============================================================
 
+**NOTE:** This software does *NOT* support weighted graph.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
    Input
+   IR
+   Output
 
 
 Indices and tables

@@ -7,9 +7,21 @@ from typing import Optional
 
 
 class InputEdgelist(InputBase):
-    """Input adapter for edgelist file without weights
     """
-    def __init__(self, inputfile, is_binary, comment='#', has_header=False, delimeter=' '):
+    Input adapter for edgelist file without weights.
+
+    """
+    def __init__(self, inputfile: str, is_binary: bool, comment: str = '#', has_header: bool = False, delimeter: str = ' '):
+        """
+        Initialize and check file access.
+
+        :param inputfile: Input file path.
+        :param is_binary: Whether the file should be opened in binary mode.
+        :param comment: The start character of comment lines in the file.
+        :param has_header: Whether the file includes a header line.
+        :param delimeter: The character to split for columns.
+        """
+
         self.inputfile = inputfile
         self.is_binary = is_binary
         self.comment = comment
@@ -22,11 +34,24 @@ class InputEdgelist(InputBase):
         if not os.access(inputfile, os.R_OK):
             raise IOError('Input file is not accessable!')
 
-    def read_from_file(self):
+    def read_from_file(self) -> None:
+        """
+        Use ``pandas.read_csv()`` to read from file.
+
+        :return: None.
+        """
+
         print('Reading from edgelist...')
         self.edgelist = pd.read_csv(self.inputfile, delimiter=self.delimeter, header=(1 if self.has_header else None), comment=self.comment).values
 
-    def to_ir(self):
+    def to_ir(self) -> csr_matrix:
+        """
+        Reorder the vertex IDs to make them in consequence, and then convert the graph to ``IR``.
+        The raw graph (input format) will be destroyed here.
+
+        :return: The graph in ``IR``.
+        """
+
         print('Reordering vertex ID...')
         self.reorder_vertex_id()
 
@@ -42,9 +67,12 @@ class InputEdgelist(InputBase):
     """
 
     def reorder_vertex_id(self):
-        """Force vertex ID starts from 1 and continuous
-           This function should be called at the beginning at to_IR()
         """
+        Force vertex ID starts from 1 and continuous
+        This function should be called at the beginning at :func:`to_ir()`.
+
+        """
+
         max_vid = numpy.amax(self.edgelist)
         v = numpy.zeros(max_vid+1, dtype=numpy.int64)
 

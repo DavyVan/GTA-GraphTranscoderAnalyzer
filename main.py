@@ -1,12 +1,13 @@
 import argparse
 import Input
-import graph_transcoder
+import GraphTranscoder
+
 
 def main():
     """Command line tool
     """
     # Parse arguments
-    parser = argparse.ArgumentParser(description="Graph format converter.")
+    parser = argparse.ArgumentParser(description="GTA: Graph Transcoder & Analyzer")
     # input options
     inputgroup = parser.add_argument_group(title='Input options')
     inputgroup.add_argument('-i', '--input-file', type=str, required=True, dest='inputfile', help='Input file path')
@@ -25,7 +26,7 @@ def main():
     parsed_arg = parser.parse_args()
     print(parsed_arg)
 
-    graph_transcoder.graph_transcoder(parsed_arg)
+    GraphTranscoder.GraphTranscoder(parsed_arg)
 
 
 if __name__ == "__main__":

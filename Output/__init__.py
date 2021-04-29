@@ -1,1 +1,2 @@
-from .output_metis import OutputMetis
+from .OutputBase import OutputBase
+from .OutputMetis import OutputMetis

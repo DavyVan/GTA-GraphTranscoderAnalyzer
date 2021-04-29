@@ -1,6 +1,6 @@
-:mod: `Input`
+:mod: `Output`
 
-Input
+Output
 ===========================
 
 
@@ -8,7 +8,6 @@ Input
    :maxdepth: 2
    :caption: Contents:
 
-   InputBase
-   InputEdgelist
-   InputMetis
+   OutputBase
+   OutputMetis
 

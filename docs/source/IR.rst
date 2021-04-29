@@ -1,6 +1,6 @@
-:mod: `Input`
+:mod: `IR`
 
-Input
+IR
 ===========================
 
 
@@ -8,7 +8,5 @@ Input
    :maxdepth: 2
    :caption: Contents:
 
-   InputBase
-   InputEdgelist
-   InputMetis
+   CSR
 

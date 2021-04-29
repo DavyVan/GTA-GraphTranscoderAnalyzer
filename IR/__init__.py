@@ -1,1 +1,1 @@
-from . import CSR
+from .CSR import CSR
