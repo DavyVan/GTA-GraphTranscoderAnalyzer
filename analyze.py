@@ -39,7 +39,7 @@ def plot_degrees():
     ax.set_ylabel('Occurrences')
     ax.set_xscale("log")
     # plt.show()
-    plt.savefig(parsed_arg+".cdf.pdf")
+    plt.savefig(parsed_arg.inputfile + ".cdf.pdf")
 
 
 if __name__ == '__main__':
