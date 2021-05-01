@@ -2,13 +2,11 @@
 All routines in this file are implemented for ``CSR``.
 """
 
-import Input
 from scipy.sparse import csr_matrix
-from typing import List, Union, Tuple
+from typing import List, Tuple
 import numpy as np
 from bisect import bisect_left
 import tqdm
-import threading
 
 
 def degrees_undirected(csr: csr_matrix) -> List[int]:
@@ -32,7 +30,7 @@ def degrees_undirected(csr: csr_matrix) -> List[int]:
     return list(degrees)
 
 
-def count_triangles(csr: csr_matrix, degrees: List[int], locks: List[threading.Lock], triangle_dist: Union[np.ndarray, List[int]], global_result: List[int], global_result_lock: threading.Lock, start_v: int = 0, end_v: int = -1):
+def count_triangles(csr: csr_matrix) -> Tuple[int, List[int]]:
     """
     Count the number of triangles in the graph using the algorithm described in the Section 3.3 of
     `this paper <https://cs.stanford.edu/~rishig/courses/ref/l1.pdf>`_. Can also output the distribution of
@@ -45,14 +43,11 @@ def count_triangles(csr: csr_matrix, degrees: List[int], locks: List[threading.L
     row_start = csr.indptr
     edge_dst = csr.indices
     nnodes = len(row_start) - 1
-    # degrees = degrees_undirected(csr)
-    # triangle_dist = np.zeros(nnodes)
+    degrees = degrees_undirected(csr)
+    triangle_dist = np.zeros(nnodes)
     result = 0
 
-    if end_v == -1:
-        end_v = nnodes
-
-    bar = tqdm.trange(start_v, end_v)
+    bar = tqdm.trange(nnodes)
     bar.set_description("Counting triangles")
     for i in bar:     # for each vertex
         # find qualified neighbours that:
@@ -78,38 +73,8 @@ def count_triangles(csr: csr_matrix, degrees: List[int], locks: List[threading.L
                 found = bisect_left(edge_dst, N2, row_start[N1], row_start[N1+1])
                 if found != row_start[N1+1] and edge_dst[found] == N2:      # triangle found
                     result += 1
-                    locks[i].acquire()
                     triangle_dist[i] += 1
-                    locks[i].release()
-                    locks[N1].acquire()
                     triangle_dist[N1] += 1
-                    locks[N1].release()
-                    locks[N2].acquire()
                     triangle_dist[N2] += 1
-                    locks[N2].release()
 
-    global_result_lock.acquire()
-    global_result[0] += result
-    global_result_lock.release()
-
-
-def count_triangles_mt(csr: csr_matrix, nthreads: int = 1) -> Tuple[int, List[int]]:
-    nnodes = len(csr.indptr) - 1
-    nnodes_per_thread = nnodes // nthreads
-    threads = []
-    locks = [threading.Lock() for i in range(nnodes)]
-    total_count = [0]
-    total_count_lock = threading.Lock()
-    triangle_dist = np.zeros(nnodes)
-    degrees = degrees_undirected(csr)
-    for i in range(nthreads-1):
-        threads.append(threading.Thread(target=count_triangles, args=(csr, degrees, locks, triangle_dist, total_count, total_count_lock, nnodes_per_thread * i, nnodes_per_thread * (i+1))))
-    threads.append(threading.Thread(target=count_triangles, args=(csr, degrees, locks, triangle_dist, total_count, total_count_lock, nnodes_per_thread * (nthreads-1), nnodes)))
-
-    for i in range(nthreads):
-        threads[i].start()
-
-    for i in range(nthreads):
-        threads[i].join()
-
-    return total_count[0], list(triangle_dist)
+    return result, list(triangle_dist)

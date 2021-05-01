@@ -13,12 +13,9 @@ def ctriangles():
     _input.read_from_file()
     _CSR = _input.to_ir()
 
-    nt = 8
-    start = time.monotonic()
-    triangles, _ = GraphAnalyzer.count_triangles_mt(_CSR, nthreads=nt)
-    end = time.monotonic()
+    triangles, _ = GraphAnalyzer.count_triangles(_CSR)
 
-    print("Finished with %d threads in %.3f seconds, found %d triangles." % (nt, end-start, triangles))
+    print("found %d triangles." % triangles)
 
 
 def plot_degrees():
