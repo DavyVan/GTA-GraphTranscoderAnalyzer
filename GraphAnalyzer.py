@@ -23,7 +23,9 @@ def degrees_undirected(csr: csr_matrix) -> List[int]:
 
     degrees = np.zeros(nnodes)
 
-    for i in range(nnodes):
+    bar = tqdm.trange(nnodes)
+    bar.set_description("Computing degrees")
+    for i in bar:
         degrees[i] = row_start[i+1] - row_start[i]
 
     return list(degrees)
@@ -46,7 +48,9 @@ def count_triangles(csr: csr_matrix) -> Tuple[int, List[int]]:
     triangle_dist = np.zeros(nnodes)
     result = 0
 
-    for i in tqdm.trange(nnodes):     # for each vertex
+    bar = tqdm.trange(nnodes)
+    bar.set_description("Counting triangles")
+    for i in bar:     # for each vertex
         # find qualified neighbours that:
         # 1. have degrees no less than the current vertex
         # 2. if degrees are equal, the higher ID wins

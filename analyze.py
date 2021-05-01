@@ -30,16 +30,16 @@ def plot_degrees():
 
     degrees = GraphAnalyzer.degrees_undirected(_CSR)
 
-    fig, ax = plt.subplots()
-    n, bins, patches = ax.hist(degrees, len(degrees), density=True, histtype='step', cumulative=True, label='CDF')
-    ax.grid(True)
-    # ax.legend(loc='right')
-    ax.set_title('CDF of degrees')
-    ax.set_xlabel('Degrees')
-    ax.set_ylabel('Occurrences')
-    ax.set_xscale("log")
-    # plt.show()
-    plt.savefig(parsed_arg.inputfile + ".cdf.pdf")
+    # fig, ax = plt.subplots()
+    # n, bins, patches = ax.hist(degrees, len(degrees), density=True, histtype='step', cumulative=True, label='CDF')
+    # ax.grid(True)
+    # # ax.legend(loc='right')
+    # ax.set_title('CDF of degrees')
+    # ax.set_xlabel('Degrees')
+    # ax.set_ylabel('Occurrences')
+    # ax.set_xscale("log")
+    # # plt.show()
+    # plt.savefig(parsed_arg.inputfile + ".cdf.pdf")
 
 
 if __name__ == '__main__':

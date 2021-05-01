@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from scipy.sparse import csr_matrix, coo_matrix
 from typing import Optional, TextIO, Union, BinaryIO
+import tqdm
 
 
 class InputMetis(InputBase):
@@ -66,7 +67,9 @@ class InputMetis(InputBase):
         _nedges = 0
 
         # start reading
-        for i in range(nnodes):
+        bar = tqdm.trange(nnodes)
+        bar.set_description("Reading vertices")
+        for i in bar:
             line = self.readline_check()
             _edges = [int(x) for x in line.split()]
             for e in _edges:
