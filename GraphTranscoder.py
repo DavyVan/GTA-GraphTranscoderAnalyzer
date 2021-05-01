@@ -3,6 +3,7 @@ import Output
 import IR
 from scipy.sparse import csr_matrix
 from typing import Optional
+import argparse
 
 
 def GraphTranscoder(args):

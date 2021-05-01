@@ -5,6 +5,7 @@ import GraphAnalyzer
 from scipy.sparse import csr_matrix
 import argparse
 import matplotlib.pyplot as plt
+import time
 
 
 def ctriangles():
@@ -12,9 +13,12 @@ def ctriangles():
     _input.read_from_file()
     _CSR = _input.to_ir()
 
-    triangles, _ = GraphAnalyzer.count_triangles(_CSR)
+    nt = 8
+    start = time.monotonic()
+    triangles, _ = GraphAnalyzer.count_triangles_mt(_CSR, nthreads=nt)
+    end = time.monotonic()
 
-    print(triangles)
+    print("Finished with %d threads in %.3f seconds, found %d triangles." % (nt, end-start, triangles))
 
 
 def plot_degrees():
@@ -43,5 +47,5 @@ def plot_degrees():
 
 
 if __name__ == '__main__':
-    # ctriangles()
-    plot_degrees()
+    ctriangles()
+    # plot_degrees()
